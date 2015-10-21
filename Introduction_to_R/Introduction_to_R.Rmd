@@ -1,0 +1,303 @@
+---
+title: "Introduction to R"
+author: "石长顺"
+date: "2015年10月21日"
+institution: WISE
+output:
+  beamer_presentation:
+    colortheme: "beaver"
+    fig_width: 7
+    fig_height: 6
+    highlight: tango
+    pandoc_args: "--latex-engine=xelatex"
+    includes:
+      in_header: header.tex
+    toc: true
+    slide_level: 2
+header-includes:
+  - \usepackage{xeCJK}
+---
+
+# 一.下载安装R 
+
+## Windows
+
+> 1. 打开网址：<http://www.r-project.org>   
+> 2. 点击“[CRAN](https://cran.r-project.org/mirrors.html)”, 选择最近的镜像
+> 3. 点击"Download R for Windows"。
+> 4. 点击“base”, 下载最新版本的R[Download R 3.2.2 for Windows](http://mirrors.xmu.edu.cn/CRAN/bin/windows/base/R-3.2.2-win.exe).
+> 5. 下载完成后双击安装包进行安装。
+
+
+**关于路径**
+1.安装时最好在默认路径（Windows C:\）
+2. 路径内最好不要含有中文
+
+[安装教程](http://wise-r.github.io/2015/10/06/install-R-Windows.html) <http://wise-r.github.io/2015/10/06/install-R-Windows.html>
+
+## OSX
+
+> 1. 打开网址：<http://www.r-project.org>   
+> 2. 点击“[CRAN](https://cran.r-project.org/mirrors.html)”, 选择最近的镜像
+> 3. 点击"Download R for （Mac）OSX"。
+> 4. 点击"[R-3.2.2.pkg](http://mirrors.xmu.edu.cn/CRAN/bin/macosx/R-3.2.2.pkg)", 下载最新版本的R.
+> 5. 下载完成后双击安装包进行安装。
+
+[安装教程](http://wise-r.github.io/2015/10/06/install-R-Mac.html) <http://wise-r.github.io/2015/10/06/install-R-Mac.html>
+
+## R的界面
+
+![window](http://i.imgbox.com/nQ7cCpWC.png)
+
+## RStudio
+
+
+> RStudio 是最流行的R语言的编辑器, 包含`高亮显示`， `自动补全`，`图形显示和管理`，`对象管理`， `Rmarkdown文档编辑和输出`等功能。
+
+
+![RStudio](RStudio.png)
+
+[安装教程](http://wise-r.github.io/2015/10/06/install-R-Windows.html#rstudio)<http://wise-r.github.io/2015/10/06/install-R-Windows.html#rstudio>
+
+# 二、Hello World
+
+
+## Hello World
+
+```{r hello}
+"Hello World"
+```
+
+
+## 变量和赋值
+
+赋值符号有`<-`和`=`, 大部分时候两种效果是一样的，推荐使用`<-`进行赋值
+
+```{r var}
+x <- 1
+x
+y <- "Hello World"
+y
+x <- y
+x
+```
+
+## 作为科学计算器的R
+
+```{r caculor1}
+1+1
+2*2
+10/3
+3^10
+```
+
+## 作为科学计算器的R
+```{r caculor}
+log10(100)
+pi
+sin(pi/2)
+```
+
+## 简单的函数
+
+```{r simplefunction}
+x <- c(1, 3, 5, 7, 10)
+y <- seq(10, 100, length=5)
+sum(x)
+max(y)
+```
+
+## 简单的函数
+```{r simplefunction2}
+plot(x, y)
+```
+
+## 工作目录（Work Directory）
+
+> 操作R时有一个默认的工作目录，该目录下的文件可以直接访问， 否则要输入完整的路径。
+
+```{r wd, eval=FALSE, tidy=TRUE}
+getwd()
+setwd("/Users/shihchosen/Documents/R/R-workplace/WISER/
+      R_Basic2015") #MAC OS
+setwd( "C:/Users/shihchosen") # Windows
+setwd( "C:\\Users\\shihchosen")
+```
+
+## 显示和删除已有变量
+
+`ls()`和`rm()`
+
+```{r}
+ls()
+rm(x)
+rm(list=ls())
+```
+
+## 工作空间(Workspace)
+> 工作空间是包含用户建立的对象的工作环境， 保存环境后下次载入时可以重复利用。
+
+```{r ws}
+save.image()
+```
+
+_一般不建议保存工作空间， 为什么呢？_
+
+## 脚本(script)
+
+R脚本是存放R代码的文本文件，后缀是`*.R`
+我们推荐把代码写在脚本里，方便管理和重复使用
+使用脚本里的代码
+
+```{r script}
+#setwd("/Users/shihchosen/Documents/R/R-workplace/WISER/
+ #     R_Basic2015/Introduction_to_R")
+source("intro2r.R")
+```
+
+# 三、package(包)
+
+## 什么是package
+
+### package
+R中的包是R函数、数据和代码的collections.
+
+
+### 核心包
+
+`"stats","graphics"  "grDevices", "utils","datasets","methods"，   "base" ` 
+
+
+## 常用的包
+截至2015年10月21日，CRAN上存有7358个包。 
+
+1. **Rcpp** Seamless R and C++ Integration.
+
+2. **ggplot2** An Implementation of the Grammar of Graphics 
+
+3. **stringr** Simple, Consistent Wrappers for Common String Operations.
+
+4. _**plyr**_ Tools for Splitting, Applying and Combining Data.
+
+5. **reshape2** Flexibly Reshape Data.
+
+6. **RCurl** General network (HTTP/FTP/...) client interface for R. 
+
+7. **knitr* A General-Purpose Package for Dynamic Report Generation in R. 
+
+## 怎么安装包
+
+### 方法一：命令行
+
+```{r, eval=FALSE}
+install.packges('packagename')
+```
+### 方法二： 菜单命令
+
+### 方法三： 手动安装
+CRAN上手动下载`*.zip`文件解压到安装目录下的`library`文件夹。
+```{r, eval=FALSE}
+.libPaths()
+```
+
+**注意**：严重推荐第一种！
+
+## 怎么使用包
+
+```{r, eval=FALSE}
+library('packagename')
+```
+
+# 四、帮助系统
+
+## R内部帮助系统
+
+> 1. `help.start()` R帮助文档首页
+> 2. `help("functionnamme")` 查看某个叫`functionname`这个函数的详细介绍(函数所在的包必须要加载)。
+> 3. `help(package="packagename")` 查看叫`packagename`的包的详细介绍
+> 4. `?functionnamme` 同`help("functionnamme")`
+> 5. `??functionname` 模糊搜索。
+> 6. `example(functionname)` 示例
+> 7. `vignette('vignettename')`
+
+## R内部帮助系统
+```{r help, eval=FALSE}
+help.start()
+help("plot")
+help(package="ggplot2")
+?plot
+?"ggplot"
+??"ggplot"
+example(qplot) # require(ggplot2)
+vignette("introduction") #require(dplyr)
+```
+
+## 外部资源
+
+### 我需要什么包？
+
+a. CRAN [Task View](https://cran.r-project.org/web/views/) <https://cran.r-project.org/web/views>
+
+b. [Rdocumentation.org](http://www.rdocumentation.org/) <http://www.rdocumentation.org/>
+
+### 我遇到了bug
+
+a. 搜索[StackOverflow](http://stackoverflow.com/questions/tagged/r)<http://stackoverflow.com/questions/tagged/r>
+
+b. Google. 尽量用英文搜索。
+Google 的替代方案AOL <http://search.aol.com/aol/webhome> (结果是由google提供)
+
+搜索时的格式可以采取，`'issue' in r`
+
+## 主动求解 Con'd
+
+1. 去[StackOverflow](http://stackoverflow.com/questions/tagged/r)<http://stackoverflow.com/questions/tagged/r>问问题
+2. 去统计之都等论坛 <http://cos.name/cn/>去问
+3. QQ群
+4. 向`package`包作者发邮件。
+
+# 五、学习资源
+
+## 在线教程
+
+1. Try R: <http://tryr.codeschool.com/>
+2. Quick R: <http://www.statmethods.net/>
+3. Learn R: <http://renkun.me/learnR/>
+4. 153 分钟学会 R
+		<https://cran.r-project.org/doc/contrib/Liu-FAQ.pdf>
+5. Coursera - R Programming: 
+<https://www.coursera.org/course/rprog> 
+
+## 学习网站
+
+1. CRAN: <https://cran.r-project.org> 
+2. R-bloggers: <http://www.r-bloggers.com/> 
+3. Stackoverflow: <http://stackoverflow.com/questions/tagged/r>
+4. 统计之都: <http://cos.name/>
+5. UCLA stat <http://www.ats.ucla.edu/stat/r/>
+
+## 书
+
+1. R 实战(R in Action): 最流行 前面的BASIC PART
+2. R 语言编程艺术(The.Art.of.R.Programming)，推荐
+3. R 语言经典实例(r cookbook),涵盖200多个R语言实用方法, 查阅比较方便。
+
+##  Cheat sheet
+
+> “cheat sheet” “有些考试时可以带一张小抄 通常老师会规定它的大小 或是单面双面等等"
+
+## R Reference Card <https://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf>
+
+![R Ref](http://i.imgbox.com/JAXEZ1Wi.png)
+
+# 练习
+
+## 练习1
+**Try R** <http://tryr.codeschool.com/> level 1
+
+
+
+
+
+
+
