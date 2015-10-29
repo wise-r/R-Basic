@@ -109,7 +109,7 @@ max(y)
 
 ## 简单的函数
 ```{r simplefunction2}
-plot(x, y)
+plot(x, y, main = "simple plot")
 ```
 
 ## 工作目录（Work Directory）
@@ -120,7 +120,7 @@ plot(x, y)
 getwd()
 setwd("/Users/shihchosen/Documents/R/R-workplace/WISER/
       R_Basic2015") #MAC OS
-setwd( "C:/Users/shihchosen") # Windows
+setwd( "C:/Users/shihchosen") # Windows or
 setwd( "C:\\Users\\shihchosen")
 ```
 
@@ -286,7 +286,9 @@ Google 的替代方案AOL <http://search.aol.com/aol/webhome> (结果是由googl
 
 > “cheat sheet” “有些考试时可以带一张小抄 通常老师会规定它的大小 或是单面双面等等"
 
-## R Reference Card <https://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf>
+### R Reference Card
+
+<https://cran.r-project.org/doc/contrib/Baggott-refcard-v2.pdf>
 
 ![R Ref](http://i.imgbox.com/JAXEZ1Wi.png)
 
