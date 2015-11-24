@@ -1,0 +1,467 @@
+# Chapter 4. 表达式与函数
+
+### 内容
+
+*  基础表达式
+  * 自动分配
+  * 运算符
+  * 条件表达式
+  * 循环
+  
+*  编写函数
+  * 函数中的元素
+  * 语法
+  * 参数
+  * 返回值
+
+*  apply() 族
+  * 了解apply族
+  * 无名函数使用 *apply()
+
+*  应用练习
+
+
+## 基础表达式
+
+### 自动分配
+
+自动分配是最简单的方式，可以直接给变量赋值，同时也有有很多种方式来实现
+
+例：建立一个1~5的向量：
+
+```{r, eval=TRUE}
+1:5       # it will be displayed in console but stored in nowhere 
+x <- 1:5  # first way to assign it
+1:5 -> x  # second way
+x = 1:5   # third way
+```
+
+其中第一种方式是最规范的。
+
+链式分配：
+
+```{r, eval=TRUE}
+x <- y <- z <- 0
+c(x, y, z)
+```
+
+### 运算符
+
+R中有很多运算符
+具体可见： [R Language Definition](http://cran.r-project.org/doc/manuals/R-lang.pdf) Page 10 
+运算符分为三种类型：
+算术运算符、逻辑运算符、其他
+
+#### 算数运算符
+
+```{r, eval=TRUE}
+x <- 2
+y <- 5
+x + y
+x - y 
+x * y
+x / y
+x ^ y
+x : y
+y %% x  # modulus 5%%2 = 1
+y %/% x # interger divide 5%/%2 = 2
+```
+
+注意：在矩阵运算时`*`与我们平时数学中用的不同，如果想进行矩阵乘法，我们应该使用`%*%`.
+
+```{r, eval=TRUE}
+x <- matrix(1:9, nrow=3)
+y <- matrix(1:9, nrow=3, byrow=TRUE)
+x * y
+x %*% y
+```
+
+#### 逻辑运算符
+
+逻辑运算的值为`TRUE` and `FALSE`，是一种独立的变量类型
+
+```{r, eval=TRUE}
+x <- TRUE
+class(x)
+```
+
+可以用来判断表达式的对错
+
+```{r, eval=TRUE}
+x <- 1
+y <- 2
+z <- 2
+x > y
+z >= y
+z == y
+x == y
+z != y
+```
+
+还有一个常用的运算符： `%in%` 用来判断一个元素是否包含在一个变量中
+
+```{r, eval=TRUE}
+y <- c(1, 3, 5, 6)
+3 %in% y
+4 %in% y
+```
+
+```{r, eval=TRUE}
+x <- c(1, 2, 4, 6)
+y <- c(1, 3, 5, 6)
+x %in% y
+```
+
+“与、或、非”操作
+
+```{r, eval=TRUE}
+x <- TRUE
+y <- FALSE
+x | y
+x & y
+!(x) & y
+!(x | y)
+```
+
+`&` and `&&`  `|` and `||`的区别：
+
+```{r, eval=TRUE}
+x <- c(TRUE, FALSE, TRUE)
+y <- c(FALSE, TRUE, TRUE)
+x & y
+x && y
+x | y
+x || y
+```
+
+ `&` 和 `|` 是对于向量进行操作的，`&&` 和 `||` 不是
+
+#### 其他操作符
+
+最常用的：
+`$` 和 `~` 
+`$` 在特定环境下选择变量。 
+`~` 用在一些 formulas当中。
+
+### 条件表达式
+
+```r
+if( condition ){
+  statement
+}
+```
+
+R会对于括号中的condition自动检查，与C语言是一样的
+
+```{r, eval=FALSE}
+x <- 2
+if( x == 1 ){
+  test <- 1
+}
+test
+```
+输出结果：Error: object 'test' not found！
+这是我们写程序时经常出错的地方：记住！一定要在使用前声明定义变量！
+
+也可以使用else
+
+```r
+if( condition.1 ){
+  statement.1
+} else if( condition.2 ) {
+  statement.2
+} else {
+  statement.3
+}
+```
+
+```{r, eval=TRUE}
+signal <- 1
+
+if( signal == 1 ){
+  action <- "Open Long"
+} else if( signal == -1 ){
+  action <- "Open Short"
+} else if( signal == 0 ){
+  action <- "Close Position"
+} else {
+  action <- "Continue"
+}
+
+action
+```
+
+ifelse的使用：
+if条件满足，则执行前面的表达式，否则执行后面的
+
+```{r, eval=TRUE}
+x <- 3
+y <- ifelse(x == 2, x*2, x*3)
+y
+```
+
+`any()` 和 `all()` 也较为常用。
+例如：想看是否一个向量中所有的元素都满足一定条件，或者其一满足一个条件：
+
+```{r, eval=TRUE}
+x <- c(1, 3, 5, 2)
+x > 2
+x == 3
+all( x > 2 )
+any( x == 3)
+```
+
+
+### 循环
+
+for循环
+
+```{r, eval=TRUE}
+y <- 0
+for( i in 1:100 ){
+  y <- y+i
+}
+
+y
+```
+
+```r
+for( iterator in vector ){
+  statement to be evaluated each time
+}
+```
+
+注意： 
+1.iterator 是建立后一直存在，而且在运行中不断发生改变。
+2.data.frame和list也可以用于循环操作
+
+```{r, eval=TRUE}
+df <- data.frame(a=rnorm(100, mean=1), b=rnorm(100, mean=0), c=rnorm(100, mean=3) )
+for( var in df ){
+  message( mean(var) )
+}
+
+lists <- list(a=rnorm(100, mean=1), b=rnorm(50, mean=0), c=rnorm(800, mean=3))
+for( x in lists ){
+  message( mean(x) )
+}
+```
+
+`repeat` 和 `while` 也可用于循环
+
+```r
+while( condition ){
+  statement
+}
+```
+
+每次循环时都要检验：`condition` 是否等于 `TRUE`.
+
+```{r, eval=TRUE}
+s <- 0
+i <- 1  # remember to creat iterator by yourself.
+while( s < 1000 ){
+  s <- s + i
+  i <- i + 1  # remember to renew your interator.
+}
+
+s
+```
+
+## 编写函数
+
+### 函数的元素：
+
+先了解一下函数的机制：
+
+例如：函数 factorial()阶乘函数
+
+```{r, eval=TRUE}
+factorial(5)
+```
+
+计算方式：$n\times(n-1)\times(n-2)\dots\times1$. 
+可以分为3部分:
+* 1. 输入 (`5`)
+* 2. 输出 (`120`)
+* 3.转换方式 ( $n\times(n-1)\times(n-2)\dots\times1$)
+
+编写函数的步骤：
+* 1. Arguments
+* 2. Return
+* 3. Statements
+
+### 语法
+
+创建函数的方式：
+
+```r
+function.name <- function( argument.1, argument.2 ){
+  statements...
+  return(result)
+}
+```
+
+例子：
+
+```{r, eval=TRUE}
+myfun <- function(x, a, b){
+  y <- a + b*x
+  return(y)
+}
+```
+
+方程创建后会一直存储在工作空间中在后面直接调用。
+
+```{r, eval=TRUE}
+myfun(x=3, a=1, b=2)
+```
+
+### 函数参数
+
+#### 参数匹配
+
+
+```{r, eval=TRUE}
+myfun(x=3, a=1, b=2)
+myfun(a=1, b=2, x=3)
+
+myfun(3, 1, 2)
+
+myfun(x=3, 1, 2)
+```
+
+#### 默认值
+
+设定默认值:
+
+```{r, eval=TRUE}
+myfun <- function(x, a=1, b=2){
+  y <- a + b*x
+  return(y)
+}
+```
+
+默认值的使用：
+
+```{r, eval=TRUE}
+myfun(1)
+
+myfun(x=1, a=2, b=3)
+myfun(1, a=3)
+```
+
+### 返回值
+
+####  `return()`是可用可不用的，结果会自动作为返回值。
+
+
+```{r, eval=TRUE}
+myfun <- function(x, a, b){
+  y <- a + b*x
+}
+```
+
+```{r, eval=TRUE}
+z <- myfun(3, 1, 2)
+z
+```
+
+简化书写：
+
+```{r, eval=TRUE}
+myfun <- function(x, a, b) y <- a + b*x
+
+z <- myfun(3, 1, 2)
+z
+```
+
+## apply() 族 
+
+### 了解apply函数
+
+`apply()`将某个特定函数应用在向量或者矩阵当中
+
+```{r, eval=TRUE}
+x <- cbind(x1 = 3, x2 = c(4:1, 2:5))
+dimnames(x)[[1]] <- letters[1:8]
+apply(x, 2, mean, trim = .2)
+col.sums <- apply(x, 2, sum)
+row.sums <- apply(x, 1, sum)
+```
+
+### 无名函数应用 `*apply()`
+
+
+```{r, eval=TRUE}
+(function(x) 2*x)(2)
+```
+
+
+```{r, eval=TRUE}
+sapply(1:100, FUN = function(i){
+  sim <- rnorm(100, mean=i)
+  return(mean(sim))
+})
+```
+
+```{r, eval=TRUE}
+ul <- sapply(LETTERS, function(L){
+  c(L, tolower(L))  
+})
+
+t(ul)
+```
+
+
+## 应用练习
+
+### 斐波那契数列
+
+1、1、2、3、5、8、13、21、34
+$F_{i}=F_{i-1}+F_{i-2}, i=3, 4, 5......50\dots$
+
+方法1：用循环的方式写：
+
+```{r, eval=TRUE}
+fib <- c(1, 1)
+
+for( i in 3:50 ){
+  fib[i] <- fib[i-1] + fib[i-2]
+}
+
+fib
+```
+
+
+方法2：用创建函数的方式写：
+
+```{r, eval=TRUE}
+fib <- function(n){
+  if(n == 1 || n == 2){
+    fib <- 1
+  } else {
+    fib <- fib(n-1) + fib(n-2)
+  }
+  return(fib)
+}
+
+fib(10)
+sapply(1:20, fib)
+```
+
+
+方法3：直接使用无名函数应用在apply族里面：
+
+```{r, eval=TRUE}
+fib_1 <- 1
+fib_2 <- 1
+
+sapply(1:50, function(i){
+  fib <- fib_1 + fib_2
+  fib_2 <<- fib_1
+  fib_1 <<- fib
+  
+  return(fib)
+})
+```
